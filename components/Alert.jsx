@@ -10,20 +10,21 @@ function Alert() {
     const [alert, setAlert] = useState(null);
 
     useEffect(() => {
-        // subscribe to new alert notifications
+        // Subscribe to new alert notifications
         const subscription = alertService.alert.subscribe(alert => setAlert(alert));
-
-        // unsubscribe when the component unmounts
+    
+        // Unsubscribe when the component unmounts
         return () => subscription.unsubscribe();
     }, []);
-
+    
     useEffect(() => {
-        // clear alert on location change
+        // Clear alert on location change
         alertService.clear();
     }, [router]);
-
+    
+    // If no alert, return null (don't render anything)
     if (!alert) return null;
-
+    
     return (
         <div className="container">
             <div className="m-3">

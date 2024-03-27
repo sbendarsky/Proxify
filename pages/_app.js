@@ -7,33 +7,38 @@ import 'styles/globals.css';
 import { userService } from 'services';
 import { Nav, Alert } from 'components';
 
+// Exporting the default function for this component
 export default App;
 
 function App({ Component, pageProps }) {
+    // Using the useRouter hook to access the router object
     const router = useRouter();
+    // Using the useState hook to manage the user and authorized states
     const [user, setUser] = useState(null);
     const [authorized, setAuthorized] = useState(false);
 
+    // Using the useEffect hook to run an auth check when the component mounts and when the route changes
     useEffect(() => {
-        // on initial load - run auth check 
+        // On initial load - run auth check 
         authCheck(router.asPath);
 
-        // on route change start - hide page content by setting authorized to false  
+        // On route change start - hide page content by setting authorized to false  
         const hideContent = () => setAuthorized(false);
         router.events.on('routeChangeStart', hideContent);
 
-        // on route change complete - run auth check 
+        // On route change complete - run auth check 
         router.events.on('routeChangeComplete', authCheck)
 
-        // unsubscribe from events in useEffect return function
+        // Unsubscribe from events in useEffect return function
         return () => {
             router.events.off('routeChangeStart', hideContent);
             router.events.off('routeChangeComplete', authCheck);
         }
     }, []);
 
+    // Defining the authCheck function to check if the user is authorized to access the current page
     function authCheck(url) {
-        // redirect to login page if accessing a private page and not logged in 
+        // Redirect to login page if accessing a private page and not logged in 
         setUser(userService.userValue);
         const publicPaths = ['/account/login', '/account/register'];
         const path = url.split('?')[0];
@@ -48,6 +53,9 @@ function App({ Component, pageProps }) {
         }
     }
 
+    // Rendering the page content
+    // The Nav and Alert components are always rendered
+    // The page content (Component) is only rendered if authorized is true
     return (
         <>
             <Head>

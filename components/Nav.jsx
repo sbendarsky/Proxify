@@ -9,13 +9,15 @@ function Nav() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
+        // Subscribe to user changes
         const subscription = userService.user.subscribe(x => setUser(x));
+        // Unsubscribe when the component unmounts
         return () => subscription.unsubscribe();
     }, []);
-
-    // only show nav when logged in
+    
+    // Only show nav when logged in
     if (!user) return null;
-
+    
     return (
         <nav className="navbar navbar-expand navbar-dark bg-dark px-3">
             <div className="navbar-nav">

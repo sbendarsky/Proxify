@@ -1,3 +1,4 @@
+// Importing necessary modules and components
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -7,33 +8,41 @@ import * as Yup from 'yup';
 import { Layout } from 'components/account';
 import { userService, alertService } from 'services';
 
+// Exporting the Login component
 export default Login;
 
 function Login() {
+    // Using the useRouter hook to get the router object
     const router = useRouter();
 
-    // form validation rules 
+    // Defining form validation rules using Yup
     const validationSchema = Yup.object().shape({
         username: Yup.string().required('Username is required'),
         password: Yup.string().required('Password is required')
     });
+    // Defining form options for react-hook-form
     const formOptions = { resolver: yupResolver(validationSchema) };
 
-    // get functions to build form with useForm() hook
+    // Using the useForm hook to get form methods and state
     const { register, handleSubmit, formState } = useForm(formOptions);
     const { errors } = formState;
 
+    // Function to handle form submission
     function onSubmit({ username, password }) {
+        // Clearing any existing alerts
         alertService.clear();
+        // Attempting to log in with the provided username and password
         return userService.login(username, password)
             .then(() => {
-                // get return url from query parameters or default to '/'
+                // If login is successful, redirect to the return URL or the home page
                 const returnUrl = router.query.returnUrl || '/';
                 router.push(returnUrl);
             })
+            // If login fails, display an error alert
             .catch(alertService.error);
     }
 
+    // Rendering the login form
     return (
         <Layout>
             <div className="card">

@@ -1,9 +1,11 @@
+// Importing necessary modules and services
 import getConfig from 'next/config';
-
 import { userService } from 'services';
 
+// Getting public runtime configuration
 const { publicRuntimeConfig } = getConfig();
 
+// Exporting the fetchWrapper object that contains methods for making HTTP requests
 export const fetchWrapper = {
     get: request('GET'),
     post: request('POST'),
@@ -11,7 +13,10 @@ export const fetchWrapper = {
     delete: request('DELETE')
 };
 
+// Function to create a request with a specific method
 function request(method) {
+    // Returns a function that takes a URL and a body
+    // It sets up the request options and makes the fetch request
     return (url, body) => {
         const requestOptions = {
             method,
@@ -25,10 +30,13 @@ function request(method) {
     }
 }
 
-// helper functions
+// Helper functions
 
+// Function to get the authorization header
+// It checks if the user is logged in and if the request is to the API URL
+// If both are true, it returns an Authorization header with the user's JWT
+// Otherwise, it returns an empty object
 function authHeader(url) {
-    // return auth header with jwt if user is logged in and request is to the api url
     const user = userService.userValue;
     const isLoggedIn = user?.token;
     const isApiUrl = url.startsWith(publicRuntimeConfig.apiUrl);
@@ -39,18 +47,21 @@ function authHeader(url) {
     }
 }
 
+// Function to handle the response from the fetch request
+// It checks if the response is JSON and parses it if it is
+// It checks if the response is an error
+// If it's a 401 or 403 error and the user is logged in, it logs the user out
+// It gets the error message from the response body or the response status text
+// If the response is not an error, it returns the parsed data
 async function handleResponse(response) {
     const isJson = response.headers?.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : null;
 
-    // check for error response
     if (!response.ok) {
         if ([401, 403].includes(response.status) && userService.userValue) {
-            // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
             userService.logout();
         }
 
-        // get error message from body or default to response status
         const error = (data && data.message) || response.statusText;
         return Promise.reject(error);
     }

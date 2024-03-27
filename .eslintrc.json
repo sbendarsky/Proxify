@@ -1,6 +1,13 @@
 {
+    // "extends" property is used to specify a base set of rules which your configuration will extend from.
+    // "next/core-web-vitals" is a set of ESLint rules that enforce Google's Core Web Vitals.
     "extends": "next/core-web-vitals",
+
+    // "rules" property is used to override rules from the base configurations.
     "rules": {
+        // "react-hooks/exhaustive-deps" rule is turned off.
+        // This rule warns when dependencies are specified incorrectly and suggests a fix.
+        // Turning it off means that you won't get warnings for dependencies in your React hooks.
         "react-hooks/exhaustive-deps": "off"
     }
 }
