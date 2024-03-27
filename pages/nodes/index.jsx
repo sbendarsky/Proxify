@@ -9,7 +9,13 @@ const Nodes = () => {
     const getNodes = async () => {
         try {
             const res = await axios.get('/api/proxmox/getNodes');
-            setNodes(res.data.data);
+            const sortedNodes = res.data.data.sort((a, b) => {
+                // Sort by CPU value, NaN will be considered last
+                if (isNaN(a.cpu)) return 1;
+                if (isNaN(b.cpu)) return -1;
+                return b.cpu - a.cpu; // Sort descending
+            });
+            setNodes(sortedNodes);
         } catch (err) {
             console.error(err);
         }
@@ -18,6 +24,11 @@ const Nodes = () => {
     useEffect(() => {
         getNodes();
     }, []);
+
+    // Helper function to format CPU percentage
+    const formatCPU = (cpu) => {
+        return `${(cpu * 100).toFixed(2)}%`;
+    };
 
     return (
         <Layout>
@@ -35,8 +46,8 @@ const Nodes = () => {
                     {nodes && nodes.map((node, index) => (
                         <tr key={index}>
                             <td>{node.node}</td>
-                            <td>{node.status}</td>
-                            <td>{node.cpu}</td>
+                            <td style={{ color: isNaN(node.cpu) ? 'red' : 'green' }}>{isNaN(node.cpu) ? 'NaN' : 'Up'}</td>
+                            <td>{formatCPU(node.cpu)}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                             </td>
                         </tr>
