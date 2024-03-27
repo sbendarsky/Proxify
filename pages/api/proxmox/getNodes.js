@@ -1,4 +1,5 @@
 import axios from 'axios';
+import exp from 'constants';
 import https from 'https';
 import { serverRuntimeConfig } from 'next.config';
 
@@ -24,3 +25,4 @@ export default async (req, res) => {
     res.status(500).json({ error: error.toString() });
   }
 };
+

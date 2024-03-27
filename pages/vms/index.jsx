@@ -1,60 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Link from 'next/link';
 
-const Nodes = () => {
-    const [nodes, setNodes] = useState(null);
+const VMPage = () => {
+    const [vms, setVms] = useState(null);
 
-    const getNodes = async () => {
+    const getVMs = async () => {
         try {
-            const res = await axios.get('/api/proxmox/getNodes');
-            setNodes(res.data.data);
+            const res = await axios.get('/api/proxmox/getVM');
+            setVms(res.data.data);
         } catch (err) {
             console.error(err);
         }
     };
 
     useEffect(() => {
-        getNodes();
+        getVMs();
     }, []);
 
     return (
         <div>
-            <h1>Nodes</h1>
+            <h1>VMs under host: proxmox24</h1>
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th style={{ width: '30%' }}>Node</th>
+                        <th style={{ width: '30%' }}>VM</th>
                         <th style={{ width: '30%' }}>Status</th>
                         <th style={{ width: '30%' }}>CPU</th>
                         <th style={{ width: '30%' }}>MEM</th>
                         <th style={{ width: '30%' }}>UPTIME</th>
-                        <th style={{ width: '10%' }}></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {nodes && nodes.map((node, index) => (
+                    {vms && vms.map((vm, index) => (
                         <tr key={index}>
-                            <td>{node.node}</td>
-                            <td>{node.status}</td>
-                            <td>{node.cpu}</td>
-                            <td>{node.mem}</td>
-                            <td>{node.uptime}</td>
-                            <td style={{ whiteSpace: 'nowrap' }}>
-                            </td>
+                            <td>{vm.name}</td>
+                            <td>{vm.status}</td>
+                            <td>{vm.cpu}</td>
+                            <td>{vm.mem}</td>
+                            <td>{vm.uptime}</td>
                         </tr>
                     ))}
-                    {!nodes &&
+                    {!vms &&
                         <tr>
-                            <td colSpan="4" className="text-center">
+                            <td colSpan="5" className="text-center">
                                 <span className="spinner-border spinner-border-sm"></span>
                             </td>
                         </tr>
                     }
-                    {nodes && !nodes.length &&
+                    {vms && !vms.length &&
                         <tr>
-                            <td colSpan="4" className="text-center">
-                                <div className="p-2">No Nodes To Display</div>
+                            <td colSpan="5" className="text-center">
+                                <div className="p-2">No VMs To Display</div>
                             </td>
                         </tr>
                     }
@@ -64,4 +60,4 @@ const Nodes = () => {
     );
 };
 
-export default Nodes;
+export default VMPage;
