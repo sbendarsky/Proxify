@@ -23,6 +23,25 @@ const VMPage = () => {
         return () => clearInterval(intervalId); // Clean up interval on unmount
     }, []);
 
+    // Helper function to format CPU percentage
+    const formatCPU = (cpu) => {
+        return `${(cpu * 100).toFixed(2)}%`;
+    };
+
+    // Helper function to format memory in human-readable format
+    const formatMemory = (mem) => {
+        return `${(mem / (1024 * 1024)).toFixed(2)} MB`;
+    };
+
+    // Helper function to format uptime in human-readable format
+    const formatUptime = (uptime) => {
+        const seconds = parseInt(uptime, 10);
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        return `${days} days, ${hours} hours, ${minutes} minutes`;
+    };
+
     const handleStartStop = async (action, vmid) => {
         try {
             await axios.post('/api/proxmox/startStopVM', { action, vmid });
@@ -53,9 +72,9 @@ const VMPage = () => {
                         <tr key={index}>
                             <td>{vm.name}</td>
                             <td>{vm.status}</td>
-                            <td>{vm.cpu}</td>
-                            <td>{vm.mem}</td>
-                            <td>{vm.uptime}</td>
+                            <td>{formatCPU(vm.cpu)}</td>
+                            <td>{formatMemory(vm.mem)}</td>
+                            <td>{formatUptime(vm.uptime)}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                                 <button onClick={() => handleStartStop('start', vm.vmid)} className="btn btn-sm btn-primary me-1">Start</button>
                                 <button onClick={() => handleStartStop('stop', vm.vmid)} className="btn btn-sm btn-danger">Stop</button>
