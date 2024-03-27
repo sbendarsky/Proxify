@@ -13,6 +13,16 @@ const VMPage = () => {
         }
     };
 
+    const handleStartStop = async (action, vmid) => {
+        try {
+            await axios.post('/api/proxmox/startStopVM', { action, vmid });
+            // After performing the action, refresh VM list
+            getVMs();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
         getVMs();
     }, []);
@@ -28,6 +38,7 @@ const VMPage = () => {
                         <th style={{ width: '30%' }}>CPU</th>
                         <th style={{ width: '30%' }}>MEM</th>
                         <th style={{ width: '30%' }}>UPTIME</th>
+                        <th style={{ width: '30%' }}>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,22 +49,26 @@ const VMPage = () => {
                             <td>{vm.cpu}</td>
                             <td>{vm.mem}</td>
                             <td>{vm.uptime}</td>
+                            <td>
+                                <button onClick={() => handleStartStop('start', vm.vmid)}>Start</button>
+                                <button onClick={() => handleStartStop('stop', vm.vmid)}>Stop</button>
+                            </td>
                         </tr>
                     ))}
-                    {!vms &&
+                    {!vms && (
                         <tr>
-                            <td colSpan="5" className="text-center">
+                            <td colSpan="6" className="text-center">
                                 <span className="spinner-border spinner-border-sm"></span>
                             </td>
                         </tr>
-                    }
-                    {vms && !vms.length &&
+                    )}
+                    {vms && !vms.length && (
                         <tr>
-                            <td colSpan="5" className="text-center">
+                            <td colSpan="6" className="text-center">
                                 <div className="p-2">No VMs To Display</div>
                             </td>
                         </tr>
-                    }
+                    )}
                 </tbody>
             </table>
         </div>
