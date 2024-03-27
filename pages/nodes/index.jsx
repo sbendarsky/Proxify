@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Link from 'next/link';
+import { Layout } from 'components/users'; // Assuming you have a similar Layout component for Nodes
+import { Spinner } from 'components'; // Assuming you have a Spinner component
 
 const Nodes = () => {
     const [nodes, setNodes] = useState(null);
@@ -19,16 +20,14 @@ const Nodes = () => {
     }, []);
 
     return (
-        <div>
+        <Layout>
             <h1>Nodes</h1>
             <table className="table table-striped">
                 <thead>
                     <tr>
-                        <th style={{ width: '30%' }}>Node</th>
+                        <th style={{ width: '30%' }}>Node Name</th>
                         <th style={{ width: '30%' }}>Status</th>
                         <th style={{ width: '30%' }}>CPU</th>
-                        <th style={{ width: '30%' }}>MEM</th>
-                        <th style={{ width: '30%' }}>UPTIME</th>
                         <th style={{ width: '10%' }}></th>
                     </tr>
                 </thead>
@@ -38,29 +37,27 @@ const Nodes = () => {
                             <td>{node.node}</td>
                             <td>{node.status}</td>
                             <td>{node.cpu}</td>
-                            <td>{node.mem}</td>
-                            <td>{node.uptime}</td>
                             <td style={{ whiteSpace: 'nowrap' }}>
                             </td>
                         </tr>
                     ))}
-                    {!nodes &&
+                    {!nodes && (
                         <tr>
-                            <td colSpan="4" className="text-center">
-                                <span className="spinner-border spinner-border-sm"></span>
+                            <td colSpan="4">
+                                <Spinner />
                             </td>
                         </tr>
-                    }
-                    {nodes && !nodes.length &&
+                    )}
+                    {nodes && !nodes.length && (
                         <tr>
                             <td colSpan="4" className="text-center">
                                 <div className="p-2">No Nodes To Display</div>
                             </td>
                         </tr>
-                    }
+                    )}
                 </tbody>
             </table>
-        </div>
+        </Layout>
     );
 };
 
