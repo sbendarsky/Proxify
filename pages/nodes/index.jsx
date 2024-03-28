@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Link from 'next/link';
+import React, { useState, useEffect } from 'react'; // Import React and necessary hooks
+import axios from 'axios'; // Import axios for making HTTP requests
+import Link from 'next/link'; // Import Link component from Next.js
 
+// Define Nodes component
 const Nodes = () => {
-    const [nodes, setNodes] = useState(null);
+    const [nodes, setNodes] = useState(null); // Initialize state for nodes
 
+    // Function to fetch nodes data from the API
     const getNodes = async () => {
         try {
-            const res = await axios.get('/api/proxmox/getNodes');
-            setNodes(res.data.data);
+            const res = await axios.get('/api/proxmox/getNodes'); // Make GET request to API endpoint
+            setNodes(res.data.data); // Update state with nodes data from response
         } catch (err) {
-            console.error(err);
+            console.error(err); // Log error if request fails
         }
     };
 
+    // Effect hook to fetch nodes data when component mounts
     useEffect(() => {
-        getNodes();
-    }, []);
+        getNodes(); // Call getNodes function
+    }, []); // Empty dependency array ensures the effect runs only once after initial render
 
+    // JSX to render Nodes component
     return (
         <div>
             <h1>Nodes</h1>
@@ -64,4 +68,4 @@ const Nodes = () => {
     );
 };
 
-export default Nodes;
+export default Nodes; // Export Nodes component

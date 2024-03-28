@@ -1,18 +1,20 @@
-import { Html, Head, Main, NextScript } from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'; // Import Document, Html, Head, Main, and NextScript from next/document
 
-export default Document;
+// Define custom Document component
+export default CustomDocument;
 
-function Document() {
+// CustomDocument component function definition
+function CustomDocument() {
     return (
-        <Html lang="en">
+        <Html lang="en"> {/* Set document language */}
             <Head>
                 {/* eslint-disable-next-line @next/next/no-css-tags */}
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" /> {/* Link Bootstrap CSS */}
             </Head>
 
             <body>
-                <Main />
-                <NextScript />
+                <Main /> {/* Render main content */}
+                <NextScript /> {/* Render Next.js script */}
             </body>
         </Html>
     );

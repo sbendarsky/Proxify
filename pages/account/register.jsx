@@ -1,46 +1,52 @@
+// Import necessary modules from Next.js and React
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
+// Import Layout component and services from custom modules
 import { Layout } from 'components/account';
 import { userService, alertService } from 'services';
 
+// Define Register component
 export default Register;
 
+// Register component function definition
 function Register() {
-    const router = useRouter();
+    const router = useRouter(); // Initialize router for navigation
 
-    // form validation rules 
+    // Define form validation rules using Yup schema
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()
-            .required('First Name is required'),
+            .required('First Name is required'), // First Name must be provided
         lastName: Yup.string()
-            .required('Last Name is required'),
+            .required('Last Name is required'), // Last Name must be provided
         username: Yup.string()
-            .required('Username is required'),
+            .required('Username is required'), // Username must be provided
         password: Yup.string()
-            .required('Password is required')
-            .min(6, 'Password must be at least 6 characters')
+            .required('Password is required') // Password must be provided
+            .min(6, 'Password must be at least 6 characters') // Password must be at least 6 characters long
     });
-    const formOptions = { resolver: yupResolver(validationSchema) };
+    const formOptions = { resolver: yupResolver(validationSchema) }; // Set up form options including resolver for Yup validation
 
-    // get functions to build form with useForm() hook
+    // Extract functions and errors from useForm hook to build form
     const { register, handleSubmit, formState } = useForm(formOptions);
     const { errors } = formState;
 
+    // Function to handle form submission
     function onSubmit(user) {
-        return userService.register(user)
+        return userService.register(user) // Call register method from userService
             .then(() => {
-                alertService.success('Registration successful', true);
-                router.push('login');
+                alertService.success('Registration successful', true); // Display success alert
+                router.push('login'); // Redirect user to login page
             })
-            .catch(alertService.error);
+            .catch(alertService.error); // Display error alert if registration fails
     }
 
+    // Return JSX for Register component
     return (
-        <Layout>
+        <Layout> {/* Use Layout component for consistent page layout */}
             <div className="card">
                 <h4 className="card-header">Register</h4>
                 <div className="card-body">
@@ -69,7 +75,7 @@ function Register() {
                             {formState.isSubmitting && <span className="spinner-border spinner-border-sm me-1"></span>}
                             Register
                         </button>
-                        <Link href="/account/login" className="btn btn-link">Cancel</Link>
+                        <Link href="/account/login" className="btn btn-link">Cancel</Link> {/* Link to login page */}
                     </form>
                 </div>
             </div>
