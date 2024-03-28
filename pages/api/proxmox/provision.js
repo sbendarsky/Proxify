@@ -18,17 +18,23 @@ export default async (req, res) => {
   try {
     const node = 'proxmox24';
     const vmConfig = {
-        target: node,
-        node: node, 
-        vmid: 183,
-        newid: 195,
-        pool: 'Ort',
+      node: node,
+      pool: 'Ort',
+      vmid: 191,
+      name: 'test-vm',
+      ostype: 'l26',
+      memory: 2048,
+      sockets: 1,
+      cores: 1,
+      net0: 'virtio,bridge=vmbr159',
+      ide2: 'local:iso/alpine-standard-3.19.1-x86.iso,media=cdrom',
+
     };
 
     // Access the vmid from vmConfig
     const vmid = vmConfig.vmid;
 
-    const response = await client.post(`/nodes/${node}/qemu/${vmid}/clone`, vmConfig);
+    const response = await client.post(`/nodes/${node}/qemu`, vmConfig);
 
     if (response.status === 200) {
       res.json({ message: 'VM created successfully' });
