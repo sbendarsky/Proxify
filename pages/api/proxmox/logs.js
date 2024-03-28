@@ -16,11 +16,12 @@ const client = axios.create({
 
 export default async (req, res) => {
   try {
-    const response = await client.get('/cluster/resources?type=vm');
-    // console.log(response.data); // Log the response data
+    const response = await client.get('/cluster/log');
+    console.log("this is the logs");
+    console.log(response.data); // Log the response data
     res.status(200).json(response.data);
   } catch (error) {
-    // console.error(error); // Log the error
+    console.error(error); // Log the error
     res.status(500).json({ error: error.toString() });
   }
 };
