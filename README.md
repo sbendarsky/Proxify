@@ -33,9 +33,11 @@ To install and run Proxify locally, follow these steps:
 
 1. Clone the repository: `git clone <repository-url>`
 2. Navigate to the project directory: `cd proxify`
-3. Install dependencies: `npm install`
-4. Start the development server: `npm run dev`
-5. Access the application at `http://localhost:3000`
+3. Edit the `next.config.js` variables to match your own
+4. Install dependencies: `npm install`
+5. Start the development server: `npm run dev`
+6. Access the application at `http://localhost:3000`
+
 
 ## Usage
 
