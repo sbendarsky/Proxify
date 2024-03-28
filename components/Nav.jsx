@@ -23,6 +23,8 @@ function Nav() {
                 <NavLink href="/nodes" className="nav-item nav-link">Nodes</NavLink>
                 <NavLink href="/vms" className="nav-item nav-link">Virtual Machines</NavLink>
                 <NavLink href="/provision" className="nav-item nav-link">Provision VM</NavLink>
+                <NavLink href="/images" className="nav-item nav-link">Images</NavLink>
+                <NavLink href="/logs" className="nav-item nav-link">Logs</NavLink>
                 <NavLink href="/users" className="nav-item nav-link">Users</NavLink>
                 <button onClick={userService.logout} className="btn btn-link nav-item nav-link">Logout</button>
             </div>

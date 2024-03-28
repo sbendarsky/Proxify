@@ -27,7 +27,7 @@ export default async (req, res) => {
       res.status(400).json({ error: 'Invalid action. Only "start" or "stop" actions are allowed.' });
     }
   } catch (error) {
-    console.error(error); // Log the error
+    // console.error(error); // Log the error
     res.status(500).json({ error: error.toString() });
   }
 };
