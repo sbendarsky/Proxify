@@ -1,18 +1,24 @@
+// Import necessary modules
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
+// Import userService and alertService from services
 import { userService, alertService } from 'services';
 
+// Define AddEdit component
 export { AddEdit };
 
 function AddEdit(props) {
+    // Destructure props to extract user
     const user = props?.user;
+
+    // Get router instance
     const router = useRouter();
 
-    // form validation rules 
+    // Define form validation rules using Yup schema
     const validationSchema = Yup.object().shape({
         firstName: Yup.string()
             .required('First Name is required'),
@@ -28,19 +34,20 @@ function AddEdit(props) {
     });
     const formOptions = { resolver: yupResolver(validationSchema) };
 
-    // set default form values if in edit mode
+    // Set default form values if in edit mode
     if (user) {
         formOptions.defaultValues = props.user;
     }
 
-    // get functions to build form with useForm() hook
+    // Get functions to build form with useForm() hook
     const { register, handleSubmit, reset, formState } = useForm(formOptions);
     const { errors } = formState;
 
+    // Function to handle form submission
     async function onSubmit(data) {
         alertService.clear();
         try {
-            // create or update user based on user prop
+            // Create or update user based on user prop
             let message;
             if (user) {
                 await userService.update(user.id, data);
@@ -50,7 +57,7 @@ function AddEdit(props) {
                 message = 'User added';
             }
 
-            // redirect to user list with success message
+            // Redirect to user list with success message
             router.push('/users');
             alertService.success(message, true);
         } catch (error) {
@@ -59,6 +66,7 @@ function AddEdit(props) {
         }
     }
 
+    // Return JSX for the form
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row">

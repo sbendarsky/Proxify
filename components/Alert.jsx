@@ -3,27 +3,36 @@ import { useRouter } from 'next/router';
 
 import { alertService } from 'services';
 
+// Export the Alert component
 export { Alert };
 
+// Define the Alert component
 function Alert() {
+    // Get the router instance
     const router = useRouter();
+
+    // State to store the current alert
     const [alert, setAlert] = useState(null);
 
+    // Effect hook to subscribe to new alert notifications
     useEffect(() => {
-        // subscribe to new alert notifications
+        // Subscribe to new alert notifications
         const subscription = alertService.alert.subscribe(alert => setAlert(alert));
 
-        // unsubscribe when the component unmounts
+        // Unsubscribe when the component unmounts
         return () => subscription.unsubscribe();
     }, []);
 
+    // Effect hook to clear alert on location change
     useEffect(() => {
-        // clear alert on location change
+        // Clear alert on location change
         alertService.clear();
     }, [router]);
 
+    // If no alert, return null
     if (!alert) return null;
 
+    // Render the alert if available
     return (
         <div className="container">
             <div className="m-3">
