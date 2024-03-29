@@ -65,6 +65,11 @@ function Register() {
                             <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
                             <div className="invalid-feedback">{errors.password?.message}</div>
                         </div>
+                        <div className="mb-3">
+                            <label className="form-check-label">Admin</label>
+                            <input name="isAdmin" type="checkbox" {...register('isAdmin')} className={`form-check-input ${errors.isAdmin ? 'is-invalid' : ''}`} />
+                            <div className="invalid-feedback">{errors.isAdmin?.message}</div>
+                        </div>
                         <button disabled={formState.isSubmitting} className="btn btn-primary">
                             {formState.isSubmitting && <span className="spinner-border spinner-border-sm me-1"></span>}
                             Register

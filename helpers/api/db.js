@@ -26,7 +26,8 @@ function userModel() {
         username: { type: String, unique: true, required: true },
         hash: { type: String, required: true },
         firstName: { type: String, required: true },
-        lastName: { type: String, required: true }
+        lastName: { type: String, required: true },
+        isAdmin: { type: Boolean, default: false } // New admin field
     }, {
         // Adding createdAt and updatedAt timestamps
         timestamps: true
