@@ -15,6 +15,7 @@ Proxify leverages the following technologies:
 
 The following diagram illustrates the architecture and interaction of Proxify with the Proxmox API:
 
+![API Workflow](resources/App-Workflow.png)<br>
 ![API Workflow](resources/API-Workflow.png)<br>
 
 ## Features
