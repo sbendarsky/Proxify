@@ -11,6 +11,12 @@ Proxify leverages the following technologies:
 - **React**: A JavaScript library for building user interfaces.
 - **Proxmox API**: Proxify interacts with the Proxmox Virtual Environment (PVE) through its RESTful API to manage virtual machines.
 
+## App Diagram
+
+The following diagram illustrates the architecture of the application
+
+![APP Workflow](resources/App-Workflow.png)<br>
+
 ## API Diagram
 
 The following diagram illustrates the architecture and interaction of Proxify with the Proxmox API:
